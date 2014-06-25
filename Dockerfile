@@ -44,4 +44,8 @@ RUN echo "NETWORKING=yes" > /etc/sysconfig/network
 # 1行で書かないとerrorになる
 RUN service mysqld start && mysqladmin -u root password password && mysql -u root -ppassword -e "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8; grant all privileges on wordpress.* to wordpress@localhost identified by 'wordpress';" && cd /var/www/html && wp core download --locale=ja && wp core config --dbname=wordpress --dbuser=wordpress --dbpass=wordpress --dbhost=localhost --locale=ja && wp core install --url=http://example.com --title=example --admin_name=example --admin_email=example@example.com --admin_password=password
 
+# ポートの開放
+EXPOSE 22 80
+
+# 起動時にsupervisordを実行
 CMD ["/usr/bin/supervisord"]
